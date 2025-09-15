@@ -1,7 +1,7 @@
 import HomeStack from './HomeStack'
 import CategoriesStack from './CategoriesStack'
-import CartScreen from '../screens/cart/CartScreen'
-import ProfileScreens from '../screens/profile/ProfileScreens'
+import CartStack from './CartStack'
+import ProfileStack from './ProfileStack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 
@@ -20,8 +20,8 @@ export default function BottomTabs() {
             }>
             <tab.Screen name="HomeStack" component={HomeStack} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="home" size={size} color={color} /> }}/>
             <tab.Screen name="CategoriesStack" component={CategoriesStack} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="list" size={size} color={color} /> }}/>
-            <tab.Screen name="Cart" component={CartScreen} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="cart" size={size} color={color} /> }} />
-            <tab.Screen name="Profile" component={ProfileScreens} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} /> }}/>
+            <tab.Screen name="Cart" component={CartStack} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="cart" size={size} color={color} /> }} />
+            <tab.Screen name="PerfilProfile" component={ProfileStack} options={{ tabBarIcon: ({ color, size }) => <Ionicons name="person" size={size} color={color} /> }}/>
         </tab.Navigator>
     )
 }
