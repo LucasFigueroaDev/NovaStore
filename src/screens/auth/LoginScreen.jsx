@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
-import { View, Text, TextInput, StyleSheet, Image, Pressable, ActivityIndicator, Switch } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
+import { View, Text, TextInput, StyleSheet, Image, Pressable, Switch } from "react-native";
 import { saveSession, clearSession } from "../../db";
 import { useDispatch } from "react-redux";
-import { setUserEmail, setLocalId } from "../../store/slices/userSlice";
+import { setUserEmail, setLocalId, setImage } from "../../store/slices/userSlice";
 import { useLoginMutation } from "../../services/authApi";
+import formStyles from '../../styles/formStyles'
+import Toast from 'react-native-toast-message';
 
 const LoginScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
@@ -14,29 +15,25 @@ const LoginScreen = ({ navigation }) => {
     const dispatch = useDispatch();
 
     const handleLogin = async () => {
-        triggerLogin({ email, password });
-    };
-
-    useEffect(() => {
-        (async () => {
-            if (result.status === "fulfilled") {
-                try {
-                    if (persistSession) {
-                        await saveSession(result.data.idToken, result.data.email);
-                        dispatch(setUserEmail(result.data.email))
-                        dispatch(setLocalId(result.data.idToken))
-                    } else {
-                        await clearSession();
-                    }
-                    dispatch(setUserEmail(result.data.email))
-                    dispatch(setLocalId(result.data.idToken))
-                } catch (error) {
-                    console.log("Error al guardar sesión:", error);
-                }
+        try {
+            const data = await triggerLogin({ email, password }).unwrap();
+            if (persistSession) {
+                await saveSession(data.localId, data.email, data.image);
+            } else {
+                await clearSession();
             }
-        })()
-    }, [result])
-
+            dispatch(setUserEmail(data.email))
+            dispatch(setLocalId(data.localId))
+            dispatch(setImage(data.image || null))
+        } catch (error) {
+            Toast.show({
+                type: 'error',
+                text1: 'Error al iniciar sesión',
+                text2: error.message || 'Intente nuevamente',
+            })
+            throw new Error(error.message || 'Error en el login');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -47,14 +44,14 @@ const LoginScreen = ({ navigation }) => {
                     onChangeText={setEmail}
                     placeholderTextColor={'#b8b2b2ff'}
                     placeholder="Email"
-                    style={styles.input}
+                    style={formStyles.input}
                     value={email}
                 />
                 <TextInput
                     onChangeText={setPassword}
                     placeholderTextColor={'#b8b2b2ff'}
                     placeholder='Password'
-                    style={styles.input}
+                    style={formStyles.input}
                     secureTextEntry
                     value={password}
                 />
@@ -67,7 +64,6 @@ const LoginScreen = ({ navigation }) => {
                     </Text>
                 </Pressable>
             </View>
-
             <Pressable style={styles.button} onPress={handleLogin}>
                 <Text style={styles.buttonText}>Iniciar sesión</Text>
             </Pressable>
@@ -82,9 +78,6 @@ const LoginScreen = ({ navigation }) => {
         </View>
     );
 };
-
-export default LoginScreen;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -92,32 +85,16 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: "#f9f9f9",
     },
-    img: { width: '100%', height: 150, resizeMode: 'cover', marginBottom: 20 },
-    title: {
-        fontSize: 26,
-        fontWeight: "bold",
-        color: "#333",
-        marginBottom: 40,
-        textAlign: "center",
-    },
+    img: { 
+        width: '100%', 
+        height: 150, 
+        resizeMode: 'cover', 
+        marginBottom: 20 },
     subTitle: {
         fontSize: 18,
         color: "#666",
         textAlign: "center",
         marginBottom: 20,
-    },
-    inputContainer: {
-        marginBottom: 20,
-    },
-    input: {
-        height: 50,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 10,
-        paddingHorizontal: 15,
-        fontSize: 16,
-        marginBottom: 20,
-        backgroundColor: "#fff",
     },
     footTextContainer: {
         flexDirection: 'row',
@@ -156,3 +133,5 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 });
+
+export default LoginScreen;

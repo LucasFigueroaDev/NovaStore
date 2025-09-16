@@ -1,9 +1,10 @@
 // screens/CartScreen.js
-import { View, Text, FlatList, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, FlatList, Pressable, StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { increment, decrement, removeFromCart, clearCart } from "../../store/slices/cartSlice";
+import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
-const CartScreen = () => {
+const CartScreen = ({ navigation }) => {
     const cartItems = useSelector(state => state.cart.items);
     const dispatch = useDispatch();
     const handleIncrease = (id) => {
@@ -22,6 +23,15 @@ const CartScreen = () => {
             position: "top",
             visibilityTime: 2000,
         });
+    };
+
+    const handleCheckout = () => {
+        if(cartItems.length > 0) {
+            navigation.navigate('Checkout',{
+                cartItems: cartItems,
+                total: getTotal()
+            });
+        }        
     };
 
     const handleClear = () => {
@@ -43,16 +53,16 @@ const CartScreen = () => {
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.price}>${item.price}</Text>
             <View style={styles.counter}>
-                <TouchableOpacity style={styles.button} onPress={() => handleDecrease(item.id)}>
+                <Pressable style={styles.button} onPress={() => handleDecrease(item.id)}>
                     <Text style={styles.buttonText}>-</Text>
-                </TouchableOpacity>
+                </Pressable>
                 <Text style={styles.count}>{item.count}</Text>
-                <TouchableOpacity style={styles.button} onPress={() => handleIncrease(item.id)}>
+                <Pressable style={styles.button} onPress={() => handleIncrease(item.id)}>
                     <Text style={styles.buttonText}>+</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.removeButton} onPress={() => handleRemove(item.id)}>
+                </Pressable>
+                <Pressable style={styles.removeButton} onPress={() => handleRemove(item.id)}>
                     <Text style={styles.removeText}>Eliminar</Text>
-                </TouchableOpacity>
+                </Pressable>
             </View>
         </View>
     );
@@ -69,9 +79,12 @@ const CartScreen = () => {
                         renderItem={renderItem}
                     />
                     <Text style={styles.total}>Total: ${getTotal()}</Text>
-                    <TouchableOpacity style={styles.clearButton} onPress={handleClear}>
+                    <Pressable style={styles.checkoutButton} onPress={handleCheckout}>
+                        <Text style={styles.checkoutText}>Continuar</Text>
+                    </Pressable>
+                    <Pressable style={styles.clearButton} onPress={handleClear}>
                         <Text style={styles.clearText}>Vaciar Carrito</Text>
-                    </TouchableOpacity>
+                    </Pressable>
                 </>
             )}
         </View>
@@ -157,7 +170,7 @@ const styles = StyleSheet.create({
     },
     clearButton: {
         marginTop: 10,
-        backgroundColor: "#007AFF",
+        backgroundColor: "#FF3B30",
         paddingVertical: 12,
         borderRadius: 10,
         alignItems: "center",
@@ -166,6 +179,18 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "600",
         fontSize: 16,
+    },
+    checkoutButton: {
+        backgroundColor: "#007AFF",
+        padding: 10,
+        borderRadius: 10,
+        marginTop: 10,
+        alignItems: "center",
+    },
+    checkoutText: {
+        color: "white",
+        fontSize: 18,
+        fontWeight: "bold",
     },
 });
 

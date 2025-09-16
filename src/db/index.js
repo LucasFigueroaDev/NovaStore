@@ -9,21 +9,24 @@ export const initDb = async () => {
 }
 
 export const initSessionTable = async () => {
-    await initDb();
-    await db.execAsync(`
+    try {
+        await initDb();
+        await db.execAsync(`
             CREATE TABLE IF NOT EXISTS session (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 localId TEXT,
-                email TEXT NOT NULL,
-                token TEXT NOT NULL
+                email TEXT NOT NULL
             );
         `);
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-export const saveSession = async (localId, email) => {
+export const saveSession = async (localId, email, image) => {
     await initDb();
     await db.runAsync('DELETE FROM session;');
-    await db.runAsync('INSERT INTO session (localId, email) VALUES (?, ?);', [localId, email]);
+    await db.runAsync('INSERT INTO session (localId, email, image) VALUES (?, ?, ?);', [localId, email, image]);
 }
 
 export const getSession = async () => {

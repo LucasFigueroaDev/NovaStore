@@ -51,9 +51,22 @@ const CategoriesScreens = ({ navigation }) => {
 export default CategoriesScreens
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 10, backgroundColor: '#fff' },
-    item: { flexDirection: 'row', justifyContent: 'space-between', padding: 15, borderBottomWidth: 1, borderBottomColor: '#eee' },
-    text: { fontSize: 18, color: '#000' },
+    container: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#fff'
+    },
+    item: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 15,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee'
+    },
+    text: {
+        fontSize: 18,
+        color: '#000'
+    },
     loaderContainer: {
         flex: 1,
         justifyContent: 'center',

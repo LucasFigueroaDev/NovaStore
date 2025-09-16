@@ -1,38 +1,50 @@
 import { useState, useEffect } from "react";
 import { View, Text, TextInput, StyleSheet, Pressable, ActivityIndicator, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { useDispatch } from "react-redux";
-import { setUserEmail, setLocalId } from "../../store/slices/userSlice";
 import { useSignupMutation } from "../../services/authApi";
+import Toast from "react-native-toast-message";
+import formStyles from '../../styles/formStyles'
 
 const SignupScreen = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [signup, { isLoading, isError, error, isSuccess, data }] = useSignupMutation();
-    const dispatch = useDispatch();
 
     const handleSignup = () => {
         if (!email || !password || !confirmPassword) {
-            alert("Por favor, completa todos los campos.");
+            Toast.show({
+                type: 'error',
+                text1: 'Error al registrarse',
+                text2: 'Todos los campos son obligatorios',
+            })
             return;
         }
         if (password !== confirmPassword) {
-            alert("Las contraseñas no coinciden.");
+            Toast.show({
+                type: 'error',
+                text1: 'Error al registrarse',
+                text2: 'Las contraseñas no coinciden',
+            })
             return;
         }
-        signup({ email, password, returnSecureToken: true });
+        signup({ email, password });
     };
 
     useEffect(() => {
         if (isSuccess && data) {
-            alert("¡Registro exitoso! Por favor, inicia sesión.");
+            Toast.show({
+                type: 'success',
+                text1: 'Registro exitoso',
+                text2: 'Ahora puedes iniciar sesión',
+            })
             navigation.navigate("Login");
         }
         if (isError) {
-            console.error("Error en el registro:", error);
             const errorMessage = error?.data?.error?.message || "Error al registrarse. Inténtalo de nuevo.";
-            alert(errorMessage);
+            Toast.show({
+                type: 'error',
+                text1: 'Error al registrarse'
+            })
         }
     }, [isSuccess, isError, data, error]);
 
@@ -48,19 +60,19 @@ const SignupScreen = ({ navigation }) => {
         <View style={styles.container}>
             <Image source={{ uri: 'https://i.ibb.co/DDdr8VdQ/Novastore.png' }} style={styles.img} />
             <Text style={styles.subTitle}>Crea tu cuenta</Text>
-            <View style={styles.inputContainer}>
+            <View style={formStyles.form}>
                 <TextInput
                     onChangeText={setEmail}
                     placeholderTextColor={'#b8b2b2ff'}
                     placeholder="Email"
-                    style={styles.input}
+                    style={formStyles.input}
                     value={email}
                 />
                 <TextInput
                     onChangeText={setPassword}
                     placeholderTextColor={'#b8b2b2ff'}
                     placeholder='Contraseña'
-                    style={styles.input}
+                    style={formStyles.input}
                     secureTextEntry
                     value={password}
                 />
@@ -68,7 +80,7 @@ const SignupScreen = ({ navigation }) => {
                     onChangeText={setConfirmPassword}
                     placeholderTextColor={'#b8b2b2ff'}
                     placeholder='Repetir contraseña'
-                    style={styles.input}
+                    style={formStyles.input}
                     secureTextEntry
                     value={confirmPassword}
                 />
@@ -98,7 +110,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#f9f9f9",
     },
     img: { width: '100%', height: 150, resizeMode: 'cover', marginBottom: 20 },
-
     title: {
         fontSize: 26,
         fontWeight: "bold",
@@ -111,19 +122,6 @@ const styles = StyleSheet.create({
         color: "#666",
         textAlign: "center",
         marginBottom: 20,
-    },
-    inputContainer: {
-        marginBottom: 20,
-    },
-    input: {
-        height: 50,
-        borderWidth: 1,
-        borderColor: "#ccc",
-        borderRadius: 10,
-        paddingHorizontal: 15,
-        fontSize: 16,
-        marginBottom: 20,
-        backgroundColor: "#fff",
     },
     footTextContainer: {
         flexDirection: 'row',

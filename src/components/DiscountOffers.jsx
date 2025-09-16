@@ -1,11 +1,6 @@
-import React, { use } from 'react';
-import { View, Text, FlatList, Image, Pressable, StyleSheet, useWindowDimensions } from 'react-native';
-import { useDispatch } from 'react-redux';
-import Toast from 'react-native-toast-message';
-
+import { View, Text, StyleSheet} from 'react-native';
 
 const DiscountOffers = ({ products, navigation }) => {
-    const dispatch = useDispatch();
 
     return (
         <View style={styles.container}>
@@ -22,8 +17,18 @@ export default DiscountOffers;
 
 const styles = StyleSheet.create({
     container: { marginVertical: 3 },
-    banner: { backgroundColor: '#2a8bf3ff', padding: 2, alignItems: 'center', marginBottom: 10, borderRadius: 10 },
-    bannerText: { color: '#fff', fontSize: 18, fontWeight: 'bold' },
-    sectionTitle: { fontSize: 16, textAlign: 'center', marginBottom: 10 },
-    
+    banner: { 
+        backgroundColor: '#2a8bf3ff', 
+        padding: 2, 
+        alignItems: 'center', 
+        marginBottom: 10, 
+        borderRadius: 10 },
+    bannerText: { 
+        color: '#fff', 
+        fontSize: 18, 
+        fontWeight: 'bold' },
+    sectionTitle: { 
+        fontSize: 16, 
+        textAlign: 'center', 
+        marginBottom: 10 },
 });

@@ -37,29 +37,28 @@ NovaStore es una aplicación móvil de **e-commerce** desarrollada con **React N
 1. Clonar el repositorio:
 
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd novastore
+   git clone https://github.com/LucasFigueroaDev/NovaStore.git
+   cd NovaStore
    ```
 
 2. Instalar dependencias:
 
    ```bash
    npm install
-   # o
-   yarn install
+
    ```
 
 3. Configurar variables de entorno (`.env`):
    Crear un archivo `.env` en la raíz del proyecto con la configuración de Firebase:
 
    ```env
-   FIREBASE_API_KEY=your_api_key
-   FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
-   FIREBASE_PROJECT_ID=your_project_id
-   FIREBASE_STORAGE_BUCKET=your_project.appspot.com
-   FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
-   FIREBASE_APP_ID=your_app_id
-   FIREBASE_MEASUREMENT_ID=your_measurement_id
+   EXPO_PUBLIC_API_KEY=your_api_key
+   EXPO_PUBLIC_AUTH_DOMAIN=your_project.firebaseapp.com
+   EXPO_PUBLIC_PROJECT_ID=your_project_id
+   EXPO_PUBLIC_STORAGE_BUCKET=your_project.appspot.com
+   EXPO_PUBLIC_MESSAGING_SENDER_ID=your_messaging_sender_id
+   EXPO_PUBLIC_APP_ID=your_app_id
+   EXPO_PUBLIC_MEASUREMENT_ID=your_measurement_id
    ```
 
 4. Ejecutar la aplicación:
@@ -89,6 +88,6 @@ novastore/
 
 Lucas Figueroa
 
-* Email: [lucas@example.com](mailto:lucas@example.com)
-* LinkedIn: [linkedin.com/in/lucasfigueroa](https://linkedin.com/in/lucasfigueroa)
-* Portafolio: [lucasportfolio.com](https://lucasportfolio.com)
+* Email: [figueroa.dev93@gmail.com](figueroa.dev93@gmail.com)
+* LinkedIn: [www.linkedin.com/in/lucas-figueroa](www.linkedin.com/in/lucas-figueroa-94711b260)
+* Portafolio: [Mi Portafolio - Figueroa Lucas](https://portafolio-five-xi-26.vercel.app/)

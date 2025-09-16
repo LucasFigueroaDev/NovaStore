@@ -1,17 +1,17 @@
 import * as ImagePicker from 'expo-image-picker';
 import CameraIcon from '../../components/CameraIcon'
-import LogoutButton from '../../components/LogoutButton';
+import AppButton from '../../components/AppButton';
 import { View, Text, Image, StyleSheet, Pressable } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { useUpdateProfilePictureMutation } from '../../services/profileApi'
-import { setImage } from '../../store/slices/userSlice';
+import { setImage, clearUser } from '../../store/slices/userSlice';
 const ProfileScreens = () => {
-    const user = useSelector(state => state.user.email);
+    const user = useSelector(state => state.user.email);    
     const localId = useSelector(state => state.user.localId);
     const image = useSelector(state => state.user.image);
+    
     const [triggerUpdateProfilePicture, result] = useUpdateProfilePictureMutation();
     const dispatch = useDispatch();
-    
     const pickImage = async () => {
         let result = await ImagePicker.launchCameraAsync({
             mediaTypes: ['images'],
@@ -20,14 +20,15 @@ const ProfileScreens = () => {
             quality: 0.7,
             base64: true
         });
-
         if (!result.canceled) {
             const imgBase64 = `data:image/jpeg;base64,${result.assets[0].base64}`;
             dispatch(setImage(imgBase64));
             triggerUpdateProfilePicture({ localId: localId, image: imgBase64 });
         }
     }
-
+    const handleLogout = () => {
+        dispatch(clearUser());
+    };
     return (
         <View style={styles.containerProfile}>
             <View style={styles.containImg}>
@@ -42,7 +43,7 @@ const ProfileScreens = () => {
                 </Pressable>
             </View>
             <Text style={styles.nameprofile}>{user}</Text>
-            <LogoutButton />
+            <AppButton title="Cerrar Sesión" onPress={handleLogout} />
         </View>
     )
 }

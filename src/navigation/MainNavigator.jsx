@@ -1,16 +1,12 @@
+import BottomTabs from "./tabs/BottomTabs";
+import AuthStack from "./auth/AuthStack";
 import { NavigationContainer } from "@react-navigation/native";
-import BottomTabs from "./BottomTabs";
-import AuthStack from "./AuthStack";
-import Toast from 'react-native-toast-message';
 import { useSelector } from "react-redux";
 import { setLocalId, setUserEmail } from "../store/slices/userSlice";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getSession, initSessionTable } from "../db";
 import { ActivityIndicator, View } from "react-native";
-
-
-
 
 const MainNavigator = () => {
     const email = useSelector(state=>state.user.email);

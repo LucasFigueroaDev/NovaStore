@@ -1,7 +1,7 @@
-import HomeStack from './HomeStack'
-import CategoriesStack from './CategoriesStack'
-import CartStack from './CartStack'
-import ProfileStack from './ProfileStack'
+import HomeStack from '../home/HomeStack'
+import CategoriesStack from '../categories/CategoriesStack'
+import CartStack from '../cart/CartStack'
+import ProfileStack from '../profile/ProfileStack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Ionicons } from '@expo/vector-icons'
 
