@@ -84,18 +84,21 @@ const CheckoutScreen = ({ navigation, route }) => {
                 <TextInput
                     style={formStyles.input}
                     placeholder="Nombre completo"
+                    placeholderTextColor={'#000'}
                     value={name}
                     onChangeText={setName}
                 />
                 <TextInput
                     style={formStyles.input}
                     placeholder="Dirección"
+                    placeholderTextColor={'#000'}
                     value={address}
                     onChangeText={setAddress}
                 />
                 <TextInput
                     style={formStyles.input}
                     placeholder="Teléfono"
+                    placeholderTextColor={'#000'}
                     value={phone}
                     onChangeText={setPhone}
                     keyboardType="phone-pad"

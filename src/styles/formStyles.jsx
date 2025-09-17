@@ -13,5 +13,6 @@ export default StyleSheet.create({
         fontSize: 16,
         marginBottom: 20,
         backgroundColor: "#fff",
+        color: "#000",
     },
 });
